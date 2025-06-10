@@ -8,13 +8,13 @@ private:
     int key;
     Tree* left;
     Tree* right;
-    bool ValKey(string element);//Проверка значения ключа
-    bool ValWay(string element);//Проверка значения пути
+    bool ValKey(string element);//РџСЂРѕРІРµСЂРєР° Р·РЅР°С‡РµРЅРёСЏ РєР»СЋС‡Р°
+    bool ValWay(string element);//РџСЂРѕРІРµСЂРєР° Р·РЅР°С‡РµРЅРёСЏ РїСѓС‚Рё
 public:
     typedef Tree* PTree;
-    Tree(int x);//Конструктор 
-    void Reading(multimap<string, int>& values, string filename);//Чтение данных из файла и запись в контейнер multimap
-    PTree Build(multimap<string, int> values);//Построение дерева
-    void Print(PTree root, int h);//Вывод дерева боком
-    void Delete(PTree root);//Удаление дерева
+    Tree(int x);//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 
+    void Reading(multimap<string, int>& values, string filename);//Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р° Рё Р·Р°РїРёСЃСЊ РІ РєРѕРЅС‚РµР№РЅРµСЂ multimap
+    PTree Build(multimap<string, int> values);//РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµСЂРµРІР°
+    void Print(PTree root, int h);//Р’С‹РІРѕРґ РґРµСЂРµРІР° Р±РѕРєРѕРј
+    void Delete(PTree root);//РЈРґР°Р»РµРЅРёРµ РґРµСЂРµРІР°
 };
