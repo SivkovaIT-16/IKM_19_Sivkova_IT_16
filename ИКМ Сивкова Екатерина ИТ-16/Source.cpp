@@ -5,7 +5,7 @@
 #include <sstream>
 #include "Header.h"
 using namespace std;
-bool Tree::ValKey(string element)//РџСЂРѕРІРµСЂРєР° Р·РЅР°С‡РµРЅРёСЏ РєР»СЋС‡Р°
+bool Tree::ValKey(string element)//Проверка значения ключа
 {
     if (element.empty())
     {
@@ -33,7 +33,7 @@ bool Tree::ValKey(string element)//РџСЂРѕРІРµСЂРєР° Р·РЅР°С‡РµРЅРёСЏ РєР»СЋС‡Р°
     }
     return true;
 }
-bool Tree::ValWay(string element)//РџСЂРѕРІРµСЂРєР° Р·РЅР°С‡РµРЅРёСЏ РїСѓС‚Рё
+bool Tree::ValWay(string element)//Проверка значения пути
 {
     if (element.empty())
     {
@@ -48,19 +48,19 @@ bool Tree::ValWay(string element)//РџСЂРѕРІРµСЂРєР° Р·РЅР°С‡РµРЅРёСЏ РїСѓС‚Рё
     }
     return true;
 }
-Tree::Tree(int x) : key(x), left(nullptr), right(nullptr) {}//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
-void Tree::Reading(multimap<string, int>& values, string filename)//Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р° Рё Р·Р°РїРёСЃСЊ РІ РєРѕРЅС‚РµР№РЅРµСЂ multimap
+Tree::Tree(int x) : key(x), left(nullptr), right(nullptr) {}//Конструктор
+void Tree::Reading(multimap<string, int>& values, string filename)//Чтение данных из файла и запись в контейнер multimap
 {
     int numLine = 0;
     string line;
     ifstream file(filename, ios::out);
     if (!file)
     {
-        throw runtime_error("Р¤Р°Р№Р» РЅРµ Р±С‹Р» РѕС‚РєСЂС‹С‚.");
+        throw runtime_error("Файл не был открыт.");
     }
     if (file.peek() == EOF)
     {
-        throw runtime_error("Р¤Р°Р№Р» РїСѓСЃС‚РѕР№. Р’РІРµРґРёС‚Рµ РґР°РЅРЅС‹Рµ РІ С„Р°Р№Р» Рё РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚Рµ РїСЂРѕРіСЂР°РјРјСѓ.");
+        throw runtime_error("Файл пустой. Введите данные в файл и перезапустите программу.");
     }
 
     while (getline(file, line))
@@ -70,31 +70,31 @@ void Tree::Reading(multimap<string, int>& values, string filename)//Р§С‚РµРЅРёРµ
         string val, way;
         if (!(str >> val))
         {
-            throw runtime_error("РќРµ СѓРєР°Р·Р°РЅРѕ Р·РЅР°С‡РµРЅРёРµ СѓР·Р»Р° РІ СЃС‚СЂРѕРєРµ " + to_string(numLine) + ".");
+            throw runtime_error("Не указано значение узла в строке " + to_string(numLine) + ".");
         }
         if (!(str >> way))
         {
-            throw runtime_error("РќРµ СѓРєР°Р·Р°РЅ РїСѓС‚СЊ РґР»СЏ СѓР·Р»Р° СЃРѕ Р·РЅР°С‡РµРЅРёРµРј " + val + " РІ СЃС‚СЂРѕРєРµ " + to_string(numLine) + ".");
+            throw runtime_error("Не указан путь для узла со значением " + val + " в строке " + to_string(numLine) + ".");
         }
         string excess;
         if (str >> excess)
         {
-            throw runtime_error("Р›РёС€РЅРёРµ РґР°РЅРЅС‹Рµ РІ СЃС‚СЂРѕРєРµ " + to_string(numLine) + ".");
+            throw runtime_error("Лишние данные в строке " + to_string(numLine) + ".");
 
         }
         if (!ValKey(val))
         {
-            throw runtime_error("РќРµРєРѕСЂСЂРµРєС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ СѓР·Р»Р° " + val + " РІ СЃС‚СЂРѕРєРµ " + to_string(numLine) + ".");
+            throw runtime_error("Некорректное значение узла " + val + " в строке " + to_string(numLine) + ".");
         }
         if (!ValWay(way))
         {
-            throw runtime_error("РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РїСѓС‚СЊ " + way + " РІ СЃС‚СЂРѕРєРµ " + to_string(numLine) + ".");
+            throw runtime_error("Некорректный путь " + way + " в строке " + to_string(numLine) + ".");
         }
         values.insert(pair<string, int>(way, stoi(val)));
     }
     file.close();
 }
-Tree::PTree Tree::Build(multimap<string, int> values)//РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµСЂРµРІР°
+Tree::PTree Tree::Build(multimap<string, int> values)//Построение дерева
 {
     PTree root = new Tree(0);
     try
@@ -111,13 +111,13 @@ Tree::PTree Tree::Build(multimap<string, int> values)//РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµ
                 {
                     if (!Node->left && i != way.size() - 1)
                     {
-                        throw runtime_error("РџСѓС‚Рё " + way + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
+                        throw runtime_error("Пути " + way + " не существует.");
                     }
                     if (i == way.size() - 1)
                     {
                         if (Node->left && Node->left->key != key)
                         {
-                            throw runtime_error("РЈР·РµР», РїСѓС‚СЊ РєРѕС‚РѕСЂРѕРіРѕ " + way + " СѓР¶Рµ СЃРѕРґРµСЂР¶РёС‚ Р·РЅР°С‡РµРЅРёРµ.");
+                            throw runtime_error("Узел, путь которого " + way + " уже содержит значение.");
                         }
                         Node->left = new Tree(key);
                     }
@@ -130,13 +130,13 @@ Tree::PTree Tree::Build(multimap<string, int> values)//РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµ
                 {
                     if (!Node->right && i != way.size() - 1)
                     {
-                        throw runtime_error("РџСѓС‚Рё " + way + " РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
+                        throw runtime_error("Пути " + way + " не существует.");
                     }
                     if (i == way.size() - 1)
                     {
                         if (Node->right && Node->right->key != key)
                         {
-                            throw runtime_error("РЈР·РµР», РїСѓС‚СЊ РєРѕС‚РѕСЂРѕРіРѕ " + way + " СѓР¶Рµ СЃРѕРґРµСЂР¶РёС‚ Р·РЅР°С‡РµРЅРёРµ.");
+                            throw runtime_error("Узел, путь которого " + way + " уже содержит значение.");
                         }
                         Node->right = new Tree(key);
                     }
@@ -155,7 +155,7 @@ Tree::PTree Tree::Build(multimap<string, int> values)//РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµ
         throw;
     }
 }
-void Tree::Print(PTree root, int h)//Р’С‹РІРѕРґ РґРµСЂРµРІР° Р±РѕРєРѕРј
+void Tree::Print(PTree root, int h)//Вывод дерева боком
 {
     int i;
     if (root != nullptr)
@@ -170,7 +170,7 @@ void Tree::Print(PTree root, int h)//Р’С‹РІРѕРґ РґРµСЂРµРІР° Р±РѕРєРѕРј
         Print(root->left, h + 1);
     }
 }
-void Tree::Delete(PTree root)//РЈРґР°Р»РµРЅРёРµ РґРµСЂРµРІР°
+void Tree::Delete(PTree root)//Удаление дерева
 {
     if (!root)
     {
