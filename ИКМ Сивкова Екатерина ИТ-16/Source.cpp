@@ -12,6 +12,10 @@ bool Tree::ValKey(string element)//Проверка значения ключа
         return false;
     }
     int start = 0;
+    if (element[0] == '0')
+    {
+        return false;
+    }
     if (element[0] == '-')
     {
         start = 1;

@@ -9,10 +9,13 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <windows.h>
 #include "Header.h"
 int main()
 {
     setlocale(LC_ALL, "Russian");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
     Tree::PTree root = nullptr;
     try 
     {
